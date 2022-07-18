@@ -7,15 +7,55 @@ SELECT DISTINCT Genre
 FROM GameSales;
 
 /* Total Game Sales over time */
-SELECT Year, SUM(Global_Sales) 
+SELECT Year, ROUND(SUM(Global_Sales), 0) * 1000000 AS Sales_in_Millions
 FROM GameSales
 WHERE Year IS NOT NULL
 	AND Year < 2015
 GROUP BY Year
 ORDER BY Year;
 
+
+/* Top Genres 2014 */
+SELECT Genre, ROUND(SUM(Global_Sales), 0) * 1000000 AS Sales_in_Millions
+FROM GameSales
+WHERE Year = 2014
+GROUP BY Genre
+ORDER BY Sales_in_Millions DESC;
+
+/* Top 4 over last 20 years */
+SELECT Year, ROUND(SUM(Global_Sales), 0) * 1000000 AS Sales_in_Millions
+FROM GameSales
+WHERE Year BETWEEN 1994 AND 2014
+	AND Genre = 'Action'
+GROUP BY Year
+ORDER BY Year;
+
+SELECT Genre, Year, ROUND(SUM(Global_Sales), 0) * 1000000 AS Sales_in_Millions
+FROM GameSales
+WHERE Year BETWEEN 1994 AND 2014
+	AND Genre = 'Shooter'
+GROUP BY Genre, Year
+ORDER BY Year;
+
+SELECT Genre, Year, ROUND(SUM(Global_Sales), 0) * 1000000 AS Sales_in_Millions
+FROM GameSales
+WHERE Year BETWEEN 1994 AND 2014
+	AND Genre = 'Sports'
+GROUP BY Genre, Year
+ORDER BY Year;
+
+SELECT Genre, Year, ROUND(SUM(Global_Sales), 0) * 1000000 AS Sales_in_Millions
+FROM GameSales
+WHERE Year BETWEEN 1994 AND 2014
+	AND Genre = 'Role-Playing'
+GROUP BY Genre, Year
+ORDER BY Year;
+
+/*  */
+
+
 /* Split into five year groups to see how genre sales change over time. Keep Out Past 2014*/
-SELECT Genre, SUM(Global_Sales) AS Sales_in_Millions
+SELECT Genre, SUM(Global_Sales) * 1000000 AS Sales_in_Millions
 FROM GameSales
 WHERE Year BETWEEN 1980 AND 1984
 GROUP BY Genre
@@ -63,7 +103,7 @@ FROM GameSales
 WHERE Year IS NOT NULL
 	AND Year < 2015
 GROUP BY Year, Genre
-ORDER BY Year, Genre;
+ORDER BY Genre, Year;
 
 SELECT Genre, Year, SUM(Global_Sales) AS Sales_in_Millions
 FROM GameSales
